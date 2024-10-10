@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>blackjack</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="totalCards-container">
+      <div class="totalPlayerCards">
+        <label id="total-player-cards"></label>
+      </div>
+      <div class="totalDealerCards">
+        <label id="total-dealer-cards"></label>
+      </div>
+    </div>
+    <div class="cards-container">
+      <div class="cards-player">
+        <label id="card1"></label>
+        <p>Player</p>
+      </div>
+      <div class="cards-dealer">
+        <label id="card2"></label>
+        <p>Dealer</p>
+      </div>
+    </div>
+    <div class="total-player-tokens">
+      <div class="playerTokens">
+        <label id="">0</label>
+      </div>
+    </div>
+    <div class="dealer">
+      <button class="deal-cards" id="deal-cards" type="submit">DEAL</button>
+      <button class="hit-card" id="hit-card">HIT</button>
+      <button class="hold-card" id="hold-card">HOLD</button>
+      <button class="game-reset" id="game-reset">RESET</button>
+    </div>
+    <div class="container-tokens">
+      <div class="tokens">
+        <button>1</button>
+        <button>2</button>
+        <button>5</button>
+        <button>10</button>
+        <button>25</button>
+      </div>
+    </div>
+    <script src="blackjack.js"></script>
+  </body>
+</html>
