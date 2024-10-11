@@ -103,10 +103,6 @@ function hitCards() {
   updateCards();
   gameOver();
 
-  // if (playerValue === 21) {
-  //   holdCards();
-  // }
-
   totalPlayer.innerText = playerValue;
 }
 
@@ -133,6 +129,7 @@ function holdCards() {
       }
 
       updateCards();
+
       totalDealer.innerText = dealerValue;
     } else {
       gameOver();
@@ -151,6 +148,7 @@ function holdCards() {
 //add game over, if the player hits above 21 the game ends.
 function gameOver() {
   if (playerValue > 21 || dealerValue > 21) {
+    roundWinner();
     hitCard.disabled = true;
     resetGame.disabled = false;
     holdCard.disabled = true;
@@ -161,14 +159,18 @@ function gameOver() {
 
 function roundWinner() {
   if ((playerValue > dealerValue && playerValue <= 21) || dealerValue > 21) {
-    winner.style.display = "block";
+    winner.style.visibility = "visible";
     winner.innerText = "You Win!";
+    winner.style.background = " rgba(95, 192, 75, 0.7)";
   } else if (
     (dealerValue > playerValue && dealerValue <= 21) ||
     playerValue > 21
   ) {
-    winner.style.display = "block";
+    winner.style.visibility = "visible";
     winner.innerText = "Dealer Wins!";
+  } else if (playerValue === dealerValue) {
+    winner.style.visibility = "visible";
+    winner.innerText = "Push";
   }
 }
 
@@ -185,7 +187,7 @@ function manualReset() {
   dealCards.disabled = false;
   holdCard.disabled = true;
   hitCard.disabled = true;
-  winner.style.display = "none";
+  winner.style.visibility = "hidden";
 }
 
 function updateLabels() {
@@ -195,16 +197,22 @@ function updateLabels() {
   const labelTypeDealer = document.getElementById("total-dealer-cards");
 
   if (buttonTypeHit.disabled == false) {
-    labelTypePlayer.style.background = "RGB(50, 205, 50)";
+    labelTypePlayer.style.background = "RGB(240, 205, 50)";
   } else if (
     buttonTypeHit.disabled == true &&
     buttonTypeHold.disabled == false
   ) {
     labelTypePlayer.style.background = "white";
-    labelTypeDealer.style.background = "RGB(50, 205, 50)";
+    labelTypeDealer.style.background = "RGB(240, 205, 50)";
   } else {
     labelTypePlayer.style.background = "white";
     labelTypeDealer.style.background = "white";
+  }
+}
+
+function addToken() {
+  if (token1) {
+    totalPlayerTokens.innerText++;
   }
 }
 //getElements
@@ -218,10 +226,11 @@ const hitCard = document.getElementById("hit-card");
 const resetGame = document.getElementById("game-reset");
 const holdCard = document.getElementById("hold-card");
 const winner = document.getElementById("winner");
+const totalPlayerTokens = document.getElementById("total-player-tokens");
+const token1 = document.getElementById("token-1");
 
 totalPlayer.innerText = 0;
 totalDealer.innerText = 0;
-winner.style.display = "none";
 
 //eventlisteners
 
@@ -248,4 +257,9 @@ holdCard.addEventListener("click", () => {
   updateLabels();
 });
 
+token1.addEventListener("click", () => {
+  addToken();
+});
+
 manualReset();
+winner.style.visibility = "hidden";
