@@ -141,6 +141,7 @@ function holdCards() {
       hitCard.disabled = true;
       resetGame.disabled = false;
       holdCard.disabled = true;
+      roundWinner();
 
       clearInterval(dealerInterval);
     }
@@ -158,6 +159,19 @@ function gameOver() {
   }
 }
 
+function roundWinner() {
+  if ((playerValue > dealerValue && playerValue <= 21) || dealerValue > 21) {
+    winner.style.display = "block";
+    winner.innerText = "You Win!";
+  } else if (
+    (dealerValue > playerValue && dealerValue <= 21) ||
+    playerValue > 21
+  ) {
+    winner.style.display = "block";
+    winner.innerText = "Dealer Wins!";
+  }
+}
+
 // write manual game reset that appears when gameOver is triggered.
 function manualReset() {
   totalPlayer.innerText = 0;
@@ -171,6 +185,7 @@ function manualReset() {
   dealCards.disabled = false;
   holdCard.disabled = true;
   hitCard.disabled = true;
+  winner.style.display = "none";
 }
 
 function updateLabels() {
@@ -202,24 +217,24 @@ const totalPlayer = document.getElementById("total-player-cards");
 const hitCard = document.getElementById("hit-card");
 const resetGame = document.getElementById("game-reset");
 const holdCard = document.getElementById("hold-card");
+const winner = document.getElementById("winner");
 
 totalPlayer.innerText = 0;
 totalDealer.innerText = 0;
+winner.style.display = "none";
 
 //eventlisteners
 
-              dealCards.addEventListener("click", () => {
+dealCards.addEventListener("click", () => {
   generateCards();
-        dealCards.disabled = true;
+  dealCards.disabled = true;
   resetGame.disabled = true;
 
-
-  
   updateLabels();
 });
 
 hitCard.addEventListener("click", () => {
-  hitCards(); 
+  hitCards();
   gameOver();
   updateLabels();
 });
