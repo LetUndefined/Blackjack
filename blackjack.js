@@ -14,6 +14,7 @@ let dealer = [];
 let player = [];
 let totalPlayerCards = 0;
 let totalDealerCards = 0;
+let totalTokens = 0;
 
 // function generated 4 different cards, 2 for the player, 2 for the dealer. cards will be pushed to the
 // designated area
@@ -136,7 +137,6 @@ function holdCards() {
     }
     if (dealerValue >= 17) {
       hitCard.disabled = true;
-      resetGame.disabled = false;
       holdCard.disabled = true;
       roundWinner();
 
@@ -150,7 +150,6 @@ function gameOver() {
   if (playerValue > 21 || dealerValue > 21) {
     roundWinner();
     hitCard.disabled = true;
-    resetGame.disabled = false;
     holdCard.disabled = true;
     totalDealer.innerText = dealerValue;
     dealerCard.innerText = dealer;
@@ -162,10 +161,7 @@ function roundWinner() {
     winner.style.visibility = "visible";
     winner.innerText = "You Win!";
     winner.style.background = " rgba(95, 192, 75, 0.7)";
-  } else if (
-    (dealerValue > playerValue && dealerValue <= 21) ||
-    playerValue > 21
-  ) {
+  } else if ((dealerValue > playerValue && dealerValue <= 21) || playerValue > 21) {
     winner.style.visibility = "visible";
     winner.innerText = "Dealer Wins!";
   } else if (playerValue === dealerValue) {
@@ -198,10 +194,7 @@ function updateLabels() {
 
   if (buttonTypeHit.disabled == false) {
     labelTypePlayer.style.background = "RGB(240, 205, 50)";
-  } else if (
-    buttonTypeHit.disabled == true &&
-    buttonTypeHold.disabled == false
-  ) {
+  } else if (buttonTypeHit.disabled == true && buttonTypeHold.disabled == false) {
     labelTypePlayer.style.background = "white";
     labelTypeDealer.style.background = "RGB(240, 205, 50)";
   } else {
@@ -211,10 +204,64 @@ function updateLabels() {
 }
 
 function addToken() {
-  if (token1) {
-    totalPlayerTokens.innerText++;
+  let totalBalance = 100;
+  balance.innerText = totalBalance;
+  for (let i = 0; i < tokens.length; i++) {
+    tokens[i].addEventListener("click", () => {
+      dealCards.disabled = false;
+      if (event.target.id === "all-in") {
+        totalTokens = totalBalance;
+        totalPlayerTokens.innerText = totalTokens;
+        balance.innerText = totalBalance - totalTokens;
+        checkBalance();
+      } else if (event.target.id === "token-1") {
+        totalTokens = totalTokens + 1;
+        totalPlayerTokens.innerText = totalTokens;
+        balance.innerText = totalBalance - totalTokens;
+        checkBalance();
+      } else if (event.target.id === "token-2") {
+        totalTokens = totalTokens + 2;
+        totalPlayerTokens.innerText = totalTokens;
+        balance.innerText = totalBalance - totalTokens;
+        checkBalance();
+      } else if (event.target.id === "token-5") {
+        totalTokens = totalTokens + 5;
+        totalPlayerTokens.innerText = totalTokens;
+        balance.innerText = totalBalance - totalTokens;
+        checkBalance();
+      } else if (event.target.id === "token-10") {
+        totalTokens = totalTokens + 10;
+        totalPlayerTokens.innerText = totalTokens;
+        balance.innerText = totalBalance - totalTokens;
+        checkBalance();
+      } else if (event.target.id === "token-25") {
+        totalTokens = totalTokens + 25;
+        totalPlayerTokens.innerText = totalTokens;
+        balance.innerText = totalBalance - totalTokens;
+        checkBalance();
+      }
+    });
   }
 }
+
+function checkBalance() {
+  const balanceValue = Number(balance.innerText);
+  if (balanceValue < 1) {
+    tokens[0].disabled = true;
+  } else if (balanceValue < 2) {
+    tokens[1].disabled = true;
+  } else if (balanceValue < 5) {
+    tokens[2].disabled = true;
+  } else if (balanceValue < 10) {
+    tokens[3].disabled = true;
+  } else if (balanceValue < 25) {
+    tokens[4].disabled = true;
+  }
+  if (balanceValue === 0) {
+    tokens.forEach((tokens) => (tokens.disabled = true));
+  }
+}
+
 //getElements
 
 const dealCards = document.getElementById("deal-cards");
@@ -223,11 +270,11 @@ const dealerCard = document.getElementById("card2");
 const totalDealer = document.getElementById("total-dealer-cards");
 const totalPlayer = document.getElementById("total-player-cards");
 const hitCard = document.getElementById("hit-card");
-const resetGame = document.getElementById("game-reset");
 const holdCard = document.getElementById("hold-card");
 const winner = document.getElementById("winner");
 const totalPlayerTokens = document.getElementById("total-player-tokens");
-const token1 = document.getElementById("token-1");
+const tokens = document.querySelectorAll("#token-1, #token-2, #token-5, #token-10, #token-25, #all-in");
+const balance = document.getElementById("total-owned-tokens");
 
 totalPlayer.innerText = 0;
 totalDealer.innerText = 0;
@@ -237,8 +284,9 @@ totalDealer.innerText = 0;
 dealCards.addEventListener("click", () => {
   generateCards();
   dealCards.disabled = true;
-  resetGame.disabled = true;
-
+  for (let i = 0; i < tokens.length; i++) {
+    tokens[i].disabled = true;
+  }
   updateLabels();
 });
 
@@ -248,18 +296,13 @@ hitCard.addEventListener("click", () => {
   updateLabels();
 });
 
-resetGame.addEventListener("click", () => {
-  manualReset();
-  updateLabels();
-});
 holdCard.addEventListener("click", () => {
   holdCards();
   updateLabels();
 });
 
-token1.addEventListener("click", () => {
-  addToken();
-});
-
-manualReset();
+addToken();
+dealCards.disabled = true;
+hitCard.disabled = true;
+holdCard.disabled = true;
 winner.style.visibility = "hidden";

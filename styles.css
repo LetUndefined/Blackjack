@@ -59,14 +59,13 @@ body {
   justify-content: center;
   align-items: center;
   height: 40vh;
-  gap: 4rem;
+  gap: 4.25rem;
 }
 
 .cards-container p {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0 0 0;
   text-transform: uppercase;
   color: white;
 }
@@ -115,7 +114,6 @@ body {
   align-items: center;
   background-color: rgb(255, 255, 255);
   border: 1px solid black;
-  cursor: pointer;
   border-radius: 10px 10px;
   width: 40px;
   height: 25px;
@@ -138,9 +136,9 @@ body {
   color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.179);
   font-size: 2rem;
+  height: 80px;
   border: 1px solid white;
-  padding: 1rem 2rem;
-  width: 100px;
+  width: 160px;
   border-radius: 10px 10px;
   text-shadow: 2px 2px 2px rgba(255, 255, 255, 0.493);
 }
@@ -164,7 +162,27 @@ button:hover:enabled {
   margin: 0.25rem;
 }
 
-.tokens button:hover {
+.tokens button:hover:enabled {
   color: black;
   background-color: rgb(240, 205, 50);
+  cursor: pointer;
+}
+
+.owned-tokens-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.player-total-tokens {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(255, 255, 255);
+  background-color: rgba(93, 8, 191, 0.344);
+  font-size: 1.5rem;
+  border: 1px solid white;
+  padding: 0.25rem 2rem;
+  border-radius: 10px 10px;
+  gap: 0.2rem;
 }
