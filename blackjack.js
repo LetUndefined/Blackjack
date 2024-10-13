@@ -15,6 +15,8 @@ let player = [];
 let totalPlayerCards = 0;
 let totalDealerCards = 0;
 let totalTokens = 0;
+let playerValue = 0;
+let dealerValue = 0;
 
 // function generated 4 different cards, 2 for the player, 2 for the dealer. cards will be pushed to the
 // designated area
@@ -56,8 +58,6 @@ function updateCards() {
 }
 
 //adding the total of the cards to a counter
-let playerValue = 0;
-let dealerValue = 0;
 
 function totalCards() {
   for (let i = 0; i < player.length; i++) {
@@ -168,18 +168,16 @@ function roundWinner() {
     winner.style.visibility = "visible";
     winner.innerText = "Push";
   }
+  tokens.forEach((tokens) => (tokens.disabled = false));
 }
 
-// write manual game reset that appears when gameOver is triggered.
-function manualReset() {
+function roundRestart() {
   totalPlayer.innerText = 0;
   totalDealer.innerText = 0;
   playerCard.innerText = 0;
   dealerCard.innerText = 0;
   player = [];
   dealer = [];
-  playerValue = 0;
-  dealerValue = 0;
   dealCards.disabled = false;
   holdCard.disabled = true;
   hitCard.disabled = true;
@@ -201,6 +199,12 @@ function updateLabels() {
     labelTypePlayer.style.background = "white";
     labelTypeDealer.style.background = "white";
   }
+
+  for (let i = 0; i < tokens.length; i++) {
+    tokens[i].addEventListener("click", () => {
+      labelTypeDealer.style.background = "white";
+    });
+  }
 }
 
 function addToken() {
@@ -208,6 +212,7 @@ function addToken() {
   balance.innerText = totalBalance;
   for (let i = 0; i < tokens.length; i++) {
     tokens[i].addEventListener("click", () => {
+      roundRestart();
       dealCards.disabled = false;
       if (event.target.id === "all-in") {
         totalTokens = totalBalance;
@@ -282,11 +287,15 @@ totalDealer.innerText = 0;
 //eventlisteners
 
 dealCards.addEventListener("click", () => {
+  playerValue = 0;
+  dealerValue = 0;
+
   generateCards();
   dealCards.disabled = true;
   for (let i = 0; i < tokens.length; i++) {
     tokens[i].disabled = true;
   }
+
   updateLabels();
 });
 
