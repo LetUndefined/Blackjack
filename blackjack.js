@@ -35,7 +35,6 @@ function generateCards() {
       player.push(randomCard);
     }
   }
-
   updateCards();
   totalCards();
   if (playerValue === 21) {
@@ -172,6 +171,9 @@ function roundWinner() {
     updateBalance();
   }
   tokens.forEach((tokens) => (tokens.disabled = false));
+  playerTokensContainer.style.background = "white";
+  playerTokensContainer.style.color = "black";
+  playerTokensContainer.style.borderColor = "black";
 }
 
 function roundRestart() {
@@ -216,6 +218,9 @@ function addToken() {
   console.log(Number(balance.innerText));
   for (let i = 0; i < tokens.length; i++) {
     tokens[i].addEventListener("click", () => {
+      playerTokensContainer.style.background = "rgba(93, 8, 191, 0.344)";
+      playerTokensContainer.style.color = "white";
+      playerTokensContainer.style.borderColor = "white";
       roundRestart();
       dealCards.disabled = false;
       if (event.target.id === "all-in") {
@@ -291,6 +296,7 @@ const winner = document.getElementById("winner");
 const totalPlayerTokens = document.getElementById("total-player-tokens");
 const tokens = document.querySelectorAll("#token-1, #token-2, #token-5, #token-10, #token-25, #all-in");
 const balance = document.getElementById("total-owned-tokens");
+const tokenContainer = document.getElementById("playerTokensContainer");
 
 totalPlayer.innerText = 0;
 totalDealer.innerText = 0;
