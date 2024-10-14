@@ -17,7 +17,7 @@ let totalDealerCards = 0;
 let totalTokens = 0;
 let playerValue = 0;
 let dealerValue = 0;
-
+let startBalance = 100;
 // function generated 4 different cards, 2 for the player, 2 for the dealer. cards will be pushed to the
 // designated area
 function generateCards() {
@@ -161,12 +161,15 @@ function roundWinner() {
     winner.style.visibility = "visible";
     winner.innerText = "You Win!";
     winner.style.background = " rgba(95, 192, 75, 0.7)";
+    updateBalance();
   } else if ((dealerValue > playerValue && dealerValue <= 21) || playerValue > 21) {
     winner.style.visibility = "visible";
     winner.innerText = "Dealer Wins!";
+    updateBalance();
   } else if (playerValue === dealerValue) {
     winner.style.visibility = "visible";
     winner.innerText = "Push";
+    updateBalance();
   }
   tokens.forEach((tokens) => (tokens.disabled = false));
 }
@@ -208,43 +211,35 @@ function updateLabels() {
 }
 
 function addToken() {
-  let totalBalance = 100;
-  balance.innerText = totalBalance;
+  balance.innerText = startBalance;
+  totalDeduct = 0;
+  console.log(Number(balance.innerText));
   for (let i = 0; i < tokens.length; i++) {
     tokens[i].addEventListener("click", () => {
       roundRestart();
       dealCards.disabled = false;
       if (event.target.id === "all-in") {
-        totalTokens = totalBalance;
-        totalPlayerTokens.innerText = totalTokens;
-        balance.innerText = totalBalance - totalTokens;
-        checkBalance();
+        totalTokens = Number(balance.innerText);
+        totalDeduct = Number(balance.innerText);
       } else if (event.target.id === "token-1") {
-        totalTokens = totalTokens + 1;
-        totalPlayerTokens.innerText = totalTokens;
-        balance.innerText = totalBalance - totalTokens;
-        checkBalance();
+        totalTokens += 1;
+        totalDeduct = 1;
       } else if (event.target.id === "token-2") {
-        totalTokens = totalTokens + 2;
-        totalPlayerTokens.innerText = totalTokens;
-        balance.innerText = totalBalance - totalTokens;
-        checkBalance();
+        totalTokens += 2;
+        totalDeduct = 2;
       } else if (event.target.id === "token-5") {
-        totalTokens = totalTokens + 5;
-        totalPlayerTokens.innerText = totalTokens;
-        balance.innerText = totalBalance - totalTokens;
-        checkBalance();
+        totalTokens += 5;
+        totalDeduct = 5;
       } else if (event.target.id === "token-10") {
-        totalTokens = totalTokens + 10;
-        totalPlayerTokens.innerText = totalTokens;
-        balance.innerText = totalBalance - totalTokens;
-        checkBalance();
+        totalTokens += 10;
+        totalDeduct = 10;
       } else if (event.target.id === "token-25") {
-        totalTokens = totalTokens + 25;
-        totalPlayerTokens.innerText = totalTokens;
-        balance.innerText = totalBalance - totalTokens;
-        checkBalance();
+        totalTokens += 25;
+        totalDeduct = 25;
       }
+      totalPlayerTokens.innerText = totalTokens;
+      balance.innerText = Number(balance.innerText) - totalDeduct;
+      checkBalance();
     });
   }
 }
@@ -264,6 +259,22 @@ function checkBalance() {
   }
   if (balanceValue === 0) {
     tokens.forEach((tokens) => (tokens.disabled = true));
+  }
+}
+
+function updateBalance() {
+  let oldBalance = Number(balance.innerText);
+  if ((playerValue > dealerValue && playerValue <= 21) || dealerValue > 21) {
+    totalTokens = totalTokens * 2;
+    balance.innerText = oldBalance + totalTokens;
+    totalPlayerTokens.innerText = 0;
+    totalTokens = 0;
+  } else if ((dealerValue > playerValue && dealerValue <= 21) || playerValue > 21) {
+    totalPlayerTokens.innerText = 0;
+    totalTokens = 0;
+  } else {
+    balance.innerText = oldBalance + totalTokens;
+    totalTokens = 0;
   }
 }
 
