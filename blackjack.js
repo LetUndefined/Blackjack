@@ -35,25 +35,27 @@ function generateCards() {
       player.push(randomCard);
     }
   }
+  dealerCard.innerText = dealer[0];
+
   updateCards();
   totalCards();
   if (playerValue === 21) {
+    dealerCard.innerText = dealer;
     holdCards();
   }
   hitCard.disabled = false;
   holdCard.disabled = false;
-  dealerCard.innerText = dealer[0];
 }
 
 //pushing the cards to the correct label
 function updateCards() {
   playerCard.innerText = player;
-  if (
-    holdCard.addEventListener("click", () => {
-      dealerCard.innerText = dealer;
-    })
-  ) {
-  }
+  // if (
+  //   holdCard.addEventListener("click", () => {
+  //     dealerCard.innerText = dealer;
+  //   })
+  // ) {
+  // }
 }
 
 //adding the total of the cards to a counter
@@ -110,6 +112,7 @@ function hitCards() {
 function holdCards() {
   hitCard.disabled = true;
   totalDealer.innerText = dealerValue;
+  dealerCard.innerText = dealer;
 
   const dealerInterval = setInterval(() => {
     // function: dealer must always hit below 17.
