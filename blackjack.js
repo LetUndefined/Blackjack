@@ -39,7 +39,7 @@ function generateCards() {
 
   updateCards();
   totalCards();
-  if (playerValue === 21) {
+  if (playerValue >= 21) {
     dealerCard.innerText = dealer;
 
     holdCards();
@@ -96,6 +96,10 @@ function hitCards() {
     playerValue += cardValues[randomCard];
   } else {
     playerValue += randomCard;
+  }
+
+  if (playerValue === 21) {
+    holdCards();
   }
   updateCards();
   gameOver();
