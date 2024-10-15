@@ -19,7 +19,16 @@ let playerValue = 0;
 let dealerValue = 0;
 let startBalance = 100;
 
-// function generated 4 different cards, 2 for the player, 2 for the dealer. cards will be pushed to the designated area
+let storedBalance = localStorage.getItem("balance");
+console.log("LocalStorage: " + storedBalance);
+
+if (storedBalance) {
+  startBalance = Number(storedBalance);
+} else {
+  startBalance = 100;
+  localStorage.setItem("balance", String(startBalance));
+}
+
 const generateNewCards = () => {
   let counter = 0;
 
@@ -235,7 +244,10 @@ function updateLabels() {
 }
 
 function addToken() {
-  balance.innerText = startBalance;
+  balance.innerText = storedBalance;
+  if (Number(balance.innerText) === 0) {
+    tokens.forEach((tokens) => (tokens.disabled = true));
+  }
   let totalDeduct = 0;
   for (let i = 0; i < tokens.length; i++) {
     tokens[i].addEventListener("click", () => {
@@ -265,6 +277,8 @@ function addToken() {
       }
       totalPlayerTokens.innerText = totalTokens;
       balance.innerText = Number(balance.innerText) - totalDeduct;
+
+      localStorage.setItem("balance", balance.innerText);
       checkBalance();
     });
   }
@@ -302,6 +316,8 @@ function updateBalance() {
     balance.innerText = oldBalance + totalTokens;
     totalTokens = 0;
   }
+
+  localStorage.setItem("balance", balance.innerText);
 }
 
 //getElements
@@ -321,7 +337,6 @@ const tokenContainer = document.getElementById("playerTokensContainer");
 
 totalPlayer.innerText = 0;
 totalDealer.innerText = 0;
-
 //eventlisteners
 
 dealCards.addEventListener("click", () => {
