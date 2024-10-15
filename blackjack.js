@@ -18,14 +18,13 @@ let totalTokens = 0;
 let playerValue = 0;
 let dealerValue = 0;
 let startBalance = 100;
-// function generated 4 different cards, 2 for the player, 2 for the dealer. cards will be pushed to the
-// designated area
-function generateCards() {
+
+// function generated 4 different cards, 2 for the player, 2 for the dealer. cards will be pushed to the designated area
+const generateNewCards = () => {
   let counter = 0;
 
   for (let i = 0; i < 4; i++) {
     let generateNumber = Math.floor(Math.random() * 13);
-
     let randomCard = cards[generateNumber];
 
     counter++;
@@ -35,27 +34,34 @@ function generateCards() {
       player.push(randomCard);
     }
   }
+};
+
+//calling the generateNewCards function to generate cards, calling updatePlayerCards and totalCards to update the values.
+function generateCards() {
+  generateNewCards();
   dealerCard.innerText = dealer[0];
-
-  updateCards();
+  updatePlayerCards();
   totalCards();
-  if (playerValue >= 21) {
-    dealerCard.innerText = dealer;
 
+  if (playerValue >= 21) {
+    updateDealerCards();
     holdCards();
   }
   hitCard.disabled = false;
   holdCard.disabled = false;
 }
 
-//pushing the cards to the correct label
-function updateCards() {
+//updating the innerText of the playerCards
+function updatePlayerCards() {
   playerCard.innerText = player;
 }
+//updating the innerText of the dealerCards
+const updateDealerCards = () => {
+  dealerCard.innerText = dealer;
+};
 
-//adding the total of the cards to a counter
-
-function totalCards() {
+//getting the total of the Player Cards
+const GetTotalPlayerCards = () => {
   for (let i = 0; i < player.length; i++) {
     if (player[i] == "A" && playerValue > 10) {
       playerValue -= 10;
@@ -66,6 +72,9 @@ function totalCards() {
       playerValue += player[i];
     }
   }
+};
+//getting the total of the Dealer Cards
+const GetTotalDealerCards = () => {
   for (let j = 0; j < dealer.length; j++) {
     if (dealer[j] == "A" && dealerValue > 10) {
       dealerValue -= 10;
@@ -76,7 +85,12 @@ function totalCards() {
       dealerValue += dealer[j];
     }
   }
+};
 
+//calling the total card function, displaying the PlayerValue in innerText, also showing the first card of the dealer.
+function totalCards() {
+  GetTotalPlayerCards();
+  GetTotalDealerCards();
   totalPlayer.innerText = playerValue;
   totalDealer.innerText = dealer[0];
 }
@@ -101,7 +115,7 @@ function hitCards() {
   if (playerValue === 21) {
     holdCards();
   }
-  updateCards();
+  updatePlayerCards();
   gameOver();
 
   totalPlayer.innerText = playerValue;
@@ -111,17 +125,17 @@ function hitCards() {
 function holdCards() {
   hitCard.disabled = true;
   totalDealer.innerText = dealerValue;
-  dealerCard.innerText = dealer;
+  updateDealerCards();
 
   const dealerInterval = setInterval(() => {
-    updateCards();
+    updatePlayerCards();
 
     // function: dealer must always hit below 17.
     if (dealerValue < 17) {
       generateNumber = Math.floor(Math.random() * 13);
       randomCard = cards[generateNumber];
       dealer.push(randomCard);
-      dealerCard.innerText = dealer;
+      updateDealerCards();
 
       if (randomCard == "A" && dealerValue > 10) {
         dealerValue -= 10;
@@ -153,21 +167,23 @@ function gameOver() {
     hitCard.disabled = true;
     holdCard.disabled = true;
     totalDealer.innerText = dealerValue;
-    dealerCard.innerText = dealer;
+    updateDealerCards();
   }
 }
 
 function roundWinner() {
   if ((playerValue > dealerValue && playerValue <= 21) || dealerValue > 21) {
-    winner.style.visibility = "visible";
     winner.innerText = "You Win!";
     winner.style.background = " rgba(95, 192, 75, 0.7)";
+    winner.style.visibility = "visible";
     updateBalance();
   } else if ((dealerValue > playerValue && dealerValue <= 21) || playerValue > 21) {
-    winner.style.visibility = "visible";
+    winner.style.background = "rgba(170, 75, 75, 0.7)";
     winner.innerText = "Dealer Wins!";
+    winner.style.visibility = "visible";
     updateBalance();
   } else if (playerValue === dealerValue) {
+    winner.style.background = "white";
     winner.style.visibility = "visible";
     winner.innerText = "Push";
     updateBalance();
