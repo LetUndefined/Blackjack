@@ -24,9 +24,9 @@ function generateCards() {
   let counter = 0;
 
   for (let i = 0; i < 4; i++) {
-    generateNumber = Math.floor(Math.random() * 13);
+    let generateNumber = Math.floor(Math.random() * 13);
 
-    randomCard = cards[generateNumber];
+    let randomCard = cards[generateNumber];
 
     counter++;
     if (counter % 2 === 0) {
@@ -41,6 +41,7 @@ function generateCards() {
   totalCards();
   if (playerValue === 21) {
     dealerCard.innerText = dealer;
+
     holdCards();
   }
   hitCard.disabled = false;
@@ -50,12 +51,6 @@ function generateCards() {
 //pushing the cards to the correct label
 function updateCards() {
   playerCard.innerText = player;
-  // if (
-  //   holdCard.addEventListener("click", () => {
-  //     dealerCard.innerText = dealer;
-  //   })
-  // ) {
-  // }
 }
 
 //adding the total of the cards to a counter
@@ -115,6 +110,8 @@ function holdCards() {
   dealerCard.innerText = dealer;
 
   const dealerInterval = setInterval(() => {
+    updateCards();
+
     // function: dealer must always hit below 17.
     if (dealerValue < 17) {
       generateNumber = Math.floor(Math.random() * 13);
@@ -130,8 +127,6 @@ function holdCards() {
       } else {
         dealerValue += randomCard;
       }
-
-      updateCards();
 
       totalDealer.innerText = dealerValue;
     } else {
@@ -177,6 +172,10 @@ function roundWinner() {
   playerTokensContainer.style.background = "white";
   playerTokensContainer.style.color = "black";
   playerTokensContainer.style.borderColor = "black";
+
+  if (Number(balance.innerText) === 0) {
+    tokens.forEach((tokens) => (tokens.disabled = true));
+  }
 }
 
 function roundRestart() {
@@ -198,14 +197,14 @@ function updateLabels() {
   const buttonTypeHold = document.getElementById("hold-card");
   const labelTypeDealer = document.getElementById("total-dealer-cards");
 
-  if (buttonTypeHit.disabled == false) {
+  if (buttonTypeHit.disabled == false && playerValue < 21) {
     labelTypePlayer.style.background = "RGB(240, 205, 50)";
   } else if (buttonTypeHit.disabled == true && buttonTypeHold.disabled == false) {
     labelTypePlayer.style.background = "white";
     labelTypeDealer.style.background = "RGB(240, 205, 50)";
   } else {
     labelTypePlayer.style.background = "white";
-    labelTypeDealer.style.background = "white";
+    labelTypeDealer.style.background = "RGB(240, 205, 50";
   }
 
   for (let i = 0; i < tokens.length; i++) {
@@ -217,8 +216,7 @@ function updateLabels() {
 
 function addToken() {
   balance.innerText = startBalance;
-  totalDeduct = 0;
-  console.log(Number(balance.innerText));
+  let totalDeduct = 0;
   for (let i = 0; i < tokens.length; i++) {
     tokens[i].addEventListener("click", () => {
       playerTokensContainer.style.background = "rgba(93, 8, 191, 0.344)";
