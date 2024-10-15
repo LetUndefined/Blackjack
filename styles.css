@@ -29,7 +29,7 @@ body {
   justify-content: center;
   align-items: center;
   color: rgb(255, 255, 255);
-  background-color: rgba(170, 75, 75, 0.7);
+  background-color: rgba(170, 75, 75, 0);
   font-size: 2rem;
   border: 1px solid white;
   padding: 1rem 3rem;
