@@ -183,7 +183,7 @@ function roundWinner() {
     winner.style.visibility = "visible";
     updateBalance();
   } else if (playerValue === dealerValue) {
-    winner.style.background = "white";
+    winner.style.background = "rgba(227, 169, 12, 0.72)";
     winner.style.visibility = "visible";
     winner.innerText = "Push";
     updateBalance();
@@ -245,7 +245,7 @@ function addToken() {
       roundRestart();
       dealCards.disabled = false;
       if (event.target.id === "all-in") {
-        totalTokens = Number(balance.innerText);
+        totalTokens = Number(balance.innerText) + totalTokens;
         totalDeduct = Number(balance.innerText);
       } else if (event.target.id === "token-1") {
         totalTokens += 1;
