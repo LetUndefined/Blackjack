@@ -201,8 +201,8 @@ function roundWinner() {
 function roundRestart() {
   totalPlayer.innerText = 0;
   totalDealer.innerText = 0;
-  playerCard.innerText = 0;
-  dealerCard.innerText = 0;
+  playerCard.innerText = "";
+  dealerCard.innerText = "";
   player = [];
   dealer = [];
   dealCards.disabled = false;
