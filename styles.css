@@ -70,6 +70,12 @@ body {
   color: white;
 }
 
+.cards-player img,
+.cards-dealer img {
+  width: 100px;
+  height: auto;
+}
+
 .totalCards-container {
   display: flex;
   justify-content: center;
